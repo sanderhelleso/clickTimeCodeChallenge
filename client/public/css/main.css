@@ -70,6 +70,16 @@ body {
     letter-spacing: 2px;
 }
 
+#history-table .history-row .row-id-container {
+    width: 100%;
+}
+
+#history-table .history-row .row-id-container .row-id {
+    float: right;
+    color: #332e4b;
+    margin-top: 0;
+}
+
 #history-table .history-row div h4 {
     margin: 0;
     font-size: 1.35rem;
@@ -94,6 +104,8 @@ body {
 #history-table .history-row .history-row-time-info h2 {
     margin: 0;
     color: #2DC5A1;
+    font-size: 2rem;
+    letter-spacing: 5px;
 }
 
 #stopwatch {
@@ -130,6 +142,11 @@ body {
 #stopwatch span {
     font-size: 1.5rem;
     color: #332e4b;
+}
+
+#history-table .history-row .history-row-time-info h2 span {
+    font-size: 1rem;
+    color: #4c4470;
 }
 
 #start-stop-btn {

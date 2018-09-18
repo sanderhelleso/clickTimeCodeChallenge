@@ -8,15 +8,10 @@ export default class Stopwatch extends Component {
                 hours: 0,
                 mins: 0,
                 secs: 0,
-                ms: 1000 // start at 1000 sec due to 1000 ms initial delay of interval
+                ms: 1000, // start at 1000 sec due to 1000 ms initial delay of interval
+                startTime: null
             },
-            historyRows: [
-                {
-                    // here we append each row and render to DOM
-                    test1: 123,
-                    test2: 321
-                }
-            ],
+            historyRows: [],
             historyRowsCount: 0,
             started: false
         };
@@ -25,6 +20,7 @@ export default class Stopwatch extends Component {
         this.stopStopwatch = this.stopStopwatch.bind(this);
         this.getTime = this.getTime.bind(this);
         this.renderHistoryRow = this.renderHistoryRow.bind(this);
+        this.success = this.success.bind(this);
     }
 
     renderTable() {
@@ -68,30 +64,37 @@ export default class Stopwatch extends Component {
 
     renderHistoryRow() {
         return this.state.historyRows.map((row) => {
-            console.log(row);
-            return <div className='history-row'>
+            return <div key={row.rowID} className='history-row'>
+                        <div className='row-id-container'>
+                            <h4 className='row-id'>{row.rowID}</h4>
+                        </div>
                         <div>
                             <h4>Start</h4>
-                            <h5>09.18.2018 11:41</h5>
-                            <h5>34.415973, 27.826807</h5>
+                            <h5>{row.startTime}</h5>
+                            <h5>{this.state.startCords.lat}, {this.state.startCords.lng}</h5>
                         </div>
                         <div>
                             <h4>End</h4>
-                            <h5>09.18.2018 11:41</h5>
-                            <h5>34.415973, 27.826807</h5>
+                            <h5>{row.endTime}</h5>
+                            <h5>{this.state.startCords.lat}, {this.state.startCords.lng}</h5>
                         </div>
                         <div className='history-row-time-info'>
                             <h3>Time Elapsed</h3>
-                            <h2>0h 20m 56s</h2>
+                            <h2>{row.hours}<span>h</span> {row.mins}<span>m</span> {row.secs}<span>s</span></h2>
                         </div>
                     </div>
         });
     }
 
     startStopwatch() {
+
+        this.getLocation();
+
         // change state of button
         this.setState({
-            started: true
+            started: true,
+            startTime: this.getTimestamp(),
+            historyRowsCount: this.state.historyRowsCount + 1 
         });
 
         // set interval to update state every sec
@@ -103,16 +106,29 @@ export default class Stopwatch extends Component {
     }
 
     stopStopwatch() {
+
+        this.getLocation();
+
         // stop interval
         clearInterval(this.intervalID);
 
         this.setState({
             started: false,
             historyRows: [...this.state.historyRows,
-                {
-                    test3: 123
+                {   rowID: this.state.historyRowsCount,
+                    hours: this.state.currentTimer.hours,
+                    mins: this.state.currentTimer.mins,
+                    secs: this.state.currentTimer.secs,
+                    startTime: this.state.startTime,
+                    endTime: this.getTimestamp()
                 }
-            ]
+            ],
+            currentTimer: {
+                hours: 0,
+                mins: 0,
+                secs: 0,
+                ms: 1000
+            }
         });
     }
 
@@ -129,7 +145,47 @@ export default class Stopwatch extends Component {
                 ms: ms + 1000
             }
         });      
-      }
+    }
+
+    getTimestamp() {
+        const today = new Date();
+        const date =  (today.getMonth() + 1) + '.' + today.getDate() + '.' +  today.getFullYear();
+        const time = today.getHours() + ":" + today.getMinutes();
+        return date + ' ' + time;
+    }
+
+    getLocation() {
+        navigator.geolocation.getCurrentPosition(this.success, this.error);
+    }
+
+    success(pos) {
+        const crd = pos.coords;
+        console.log(this.state.started);
+        switch(this.state.started) {
+            case true:
+                this.setState({
+                    startCords: {
+                        lat: crd.latitude,
+                        lng: crd.longitude
+                    }
+                });
+                break;
+            
+            case false:
+                this.setState({
+                    endCords: {
+                        lat: crd.latitude,
+                        lng: crd.longitude
+                    }
+                });
+                break;
+        }
+        
+    }
+      
+    error(err) {
+        console.warn(`ERROR(${err.code}): ${err.message}`);
+    }
 
     render() {
         return (
