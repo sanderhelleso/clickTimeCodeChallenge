@@ -15,6 +15,7 @@ export default class Stopwatch extends Component {
                 test1: 123,
                 test2: 321
             },
+            historyRowsCount: 0,
             started: false
         };
 
@@ -65,18 +66,22 @@ export default class Stopwatch extends Component {
 
     renderHistoryRow() {
         return Object.keys(this.state.historyRows).map(row => {
-            return <div id='history-row'>
-                <div id='history-row-start'>
-                    <h4>Start</h4>
-                    <h5>09.18.2018 11.41</h5>
-                    <h5>LAT: 34.415973, LNG: 27.826807</h5>
-                </div>
-                <div id='history-row-end'>
-                    <h4>End</h4>
-                    <h5>09.18.2018 11.41</h5>
-                    <h5>LAT: 34.415973, LNG: 27.826807</h5>
-                </div>
-            </div>
+            return <div className='history-row'>
+                        <div>
+                            <h4>Start</h4>
+                            <h5>09.18.2018 11:41</h5>
+                            <h5>34.415973, 27.826807</h5>
+                        </div>
+                        <div>
+                            <h4>End</h4>
+                            <h5>09.18.2018 11:41</h5>
+                            <h5>34.415973, 27.826807</h5>
+                        </div>
+                        <div className='history-row-time-info'>
+                            <h3>Time Elapsed</h3>
+                            <h2>0h 20m 56s</h2>
+                        </div>
+                    </div>
         });
     }
 
@@ -95,12 +100,12 @@ export default class Stopwatch extends Component {
     }
 
     stopStopwatch() {
+        // stop interval
+        clearInterval(this.intervalID);
+
         this.setState({
             started: false
         });
-
-        // stop interval
-        clearInterval(this.intervalID);
     }
 
     getTime(ms) {
