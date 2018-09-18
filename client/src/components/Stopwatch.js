@@ -61,7 +61,7 @@ export default class Stopwatch extends Component {
         });
 
         // set interval to update state every sec
-        setInterval(() => {
+        this.intervalID = setInterval(() => {
             this.getTime(this.state.currentTimer.ms)
         }, 1000);
 
@@ -72,6 +72,8 @@ export default class Stopwatch extends Component {
         this.setState({
             started: false
         });
+
+        clearInterval(this.intervalID);
     }
 
     getTime(ms) {
