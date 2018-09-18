@@ -7,13 +7,15 @@ export default class Stopwatch extends Component {
             currentTimer: {
                 hours: 0,
                 mins: 0,
-                secs: 0
+                secs: 0,
+                ms: 1000 // start at 1000 sec due to 1000 ms initial delay of interval
             },
             started: false
         };
 
         this.startStopwatch = this.startStopwatch.bind(this);
         this.stopStopwatch = this.stopStopwatch.bind(this);
+        this.getTime = this.getTime.bind(this);
     }
 
     renderTable() {
@@ -53,9 +55,17 @@ export default class Stopwatch extends Component {
     }
 
     startStopwatch() {
+        // change state of button
         this.setState({
             started: true
         });
+
+        // set interval to update state every sec
+        setInterval(() => {
+            this.getTime(this.state.currentTimer.ms)
+        }, 1000);
+
+
     }
 
     stopStopwatch() {
@@ -63,6 +73,21 @@ export default class Stopwatch extends Component {
             started: false
         });
     }
+
+    getTime(ms) {
+        const seconds = parseInt((ms / 1000) % 60);
+        const minutes = parseInt((ms / (1000 * 60)) % 60);
+        const hours = parseInt((ms / (1000 * 60 * 60)) % 24);
+
+        this.setState({
+            currentTimer: {
+                secs: seconds,
+                mins: minutes,
+                hours: hours,
+                ms: ms + 1000
+            }
+        });      
+      }
 
     render() {
         return (

@@ -60,6 +60,7 @@ body {
     color: #4c4470;
     display: inline;
     letter-spacing: 0.35rem;
+    margin: 0.5rem;
 }
 
 #stopwatch #secs {
