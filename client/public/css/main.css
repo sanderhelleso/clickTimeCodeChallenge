@@ -35,7 +35,7 @@ body {
 }
 
 #history-table, #history-intro {
-    color: #484169;
+    color: #5b5183;
     line-height: 1.6;
     padding: 2% 7.5%;
 }
@@ -45,41 +45,55 @@ body {
     min-width: 20vw;
     text-align: center;
     border-left: 0.5px solid #29253d;
+    position: relative;
 }
 
-#stopwatch #timer {
-    margin-top: 35%;
-    font-size: 3rem;
+#timer-container {
+    margin: 1.5rem;
+    padding: 2.5rem;
+    border-radius: 50%;
+    font-weight: 100;
+}
+
+#stopwatch #hours, #mins {
+    font-size: 2rem;
+    color: #4c4470;
+    display: inline;
+    letter-spacing: 0.35rem;
+}
+
+#stopwatch #secs {
+    margin: 0;
+    font-size: 5rem;
     letter-spacing: 0.5rem;
     color: #2DC5A1;
 }
 
-#stopwatch #timer span {
-    font-size: 2.5rem;
+#stopwatch span {
+    font-size: 1.5rem;
     color: #332e4b;
 }
 
 #start-stop-btn {
-    min-width: 170px;
+    min-width: 180px;
     border: none;
     padding: 1rem;
     cursor: pointer;
     outline: inherit;
     box-shadow: 0px 9px 28px rgba(0, 0, 0, 0.09);
     font-family: 'Poiret One', cursive;
-}
-
-.start-btn {
-    background: #11998e;  /* fallback for old browsers */
-    background: -webkit-linear-gradient(to right, #38ef7d, #11998e);  /* Chrome 10-25, Safari 5.1-6 */
-    background: linear-gradient(to right, #38ef7d, #11998e); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-    
     color: #ffffff;
     font-size: 1rem;
     letter-spacing: 3px;
     text-transform: uppercase;
     border-radius: 8px;
     font-weight: 800;
+}
+
+.start-btn {
+    background: #11998e;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #38ef7d, #11998e);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #38ef7d, #11998e); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 }
 
 .stop-btn {

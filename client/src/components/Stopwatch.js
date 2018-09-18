@@ -5,11 +5,15 @@ export default class Stopwatch extends Component {
         super(props);
         this.state = {
             currentTimer: {
-                hours: '00',
-                mins: '00',
-                secs: '00'
-            }
+                hours: 0,
+                mins: 0,
+                secs: 0
+            },
+            started: false
         };
+
+        this.startStopwatch = this.startStopwatch.bind(this);
+        this.stopStopwatch = this.stopStopwatch.bind(this);
     }
 
     renderTable() {
@@ -25,7 +29,13 @@ export default class Stopwatch extends Component {
     renderWatch() {
         const WATCH =
         <div id='stopwatch'>
-            <h2 id='timer' className='long-shadow'>{this.state.currentTimer.mins}<span>:</span>{this.state.currentTimer.secs}</h2>
+            <div id='timer-container'>
+                <div id='timer' className='long-shadow'>
+                    <h5 id='hours'>{this.state.currentTimer.hours}<span>h</span></h5>
+                    <h5 id='mins'>{this.state.currentTimer.mins}<span>m</span></h5>
+                    <h2 id='secs'>{this.state.currentTimer.secs}<span>s</span></h2>
+                </div>
+            </div>
             {this.renderStartStop()}
         </div>
 
@@ -33,7 +43,25 @@ export default class Stopwatch extends Component {
     }
 
     renderStartStop() {
-        return <button id='start-stop-btn' className='start-btn'>Start</button>
+        if (!this.state.started) {
+            return <button id='start-stop-btn' className='start-btn' onClick={this.startStopwatch}>Start</button>
+        }
+
+        else {
+            return <button id='start-stop-btn' className='stop-btn' onClick={this.stopStopwatch}>Stop</button>
+        }
+    }
+
+    startStopwatch() {
+        this.setState({
+            started: true
+        });
+    }
+
+    stopStopwatch() {
+        this.setState({
+            started: false
+        });
     }
 
     render() {
