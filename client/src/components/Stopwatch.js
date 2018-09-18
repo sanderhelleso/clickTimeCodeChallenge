@@ -10,11 +10,13 @@ export default class Stopwatch extends Component {
                 secs: 0,
                 ms: 1000 // start at 1000 sec due to 1000 ms initial delay of interval
             },
-            historyRows: {
-                // here we append each row and render to DOM
-                test1: 123,
-                test2: 321
-            },
+            historyRows: [
+                {
+                    // here we append each row and render to DOM
+                    test1: 123,
+                    test2: 321
+                }
+            ],
             historyRowsCount: 0,
             started: false
         };
@@ -65,7 +67,8 @@ export default class Stopwatch extends Component {
     }
 
     renderHistoryRow() {
-        return Object.keys(this.state.historyRows).map(row => {
+        return this.state.historyRows.map((row) => {
+            console.log(row);
             return <div className='history-row'>
                         <div>
                             <h4>Start</h4>
@@ -104,7 +107,12 @@ export default class Stopwatch extends Component {
         clearInterval(this.intervalID);
 
         this.setState({
-            started: false
+            started: false,
+            historyRows: [...this.state.historyRows,
+                {
+                    test3: 123
+                }
+            ]
         });
     }
 
