@@ -37,7 +37,17 @@ body {
 #history-table, #history-intro {
     color: #5b5183;
     line-height: 1.6;
-    padding: 2% 7.5%;
+    padding: 2% 5%;
+}
+
+#history-table {
+    display: inline-block;
+}
+
+#history-table #history-row {
+    padding: 2rem;
+    color: #5b5183;
+    border-bottom: 0.5px solid #5b5183;
 }
 
 #stopwatch {

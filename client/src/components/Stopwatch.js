@@ -10,18 +10,27 @@ export default class Stopwatch extends Component {
                 secs: 0,
                 ms: 1000 // start at 1000 sec due to 1000 ms initial delay of interval
             },
+            historyRows: {
+                // here we append each row and render to DOM
+                test1: 123,
+                test2: 321
+            },
             started: false
         };
 
         this.startStopwatch = this.startStopwatch.bind(this);
         this.stopStopwatch = this.stopStopwatch.bind(this);
         this.getTime = this.getTime.bind(this);
+        this.renderHistoryRow = this.renderHistoryRow.bind(this);
     }
 
     renderTable() {
         const TABLE =
         <div id='history-table'>
             <h2 id='history-heading'>History</h2>
+            <div id='history-rows'>
+                {this.renderHistoryRow()}
+            </div>
             <p id='history-intro'>Professor Higginbotham has challenged you to a race around the world in a steam-powered zeppelin of your own invention. In order to verify your time at each leg of the race, you will need to create a stopwatch web application consisting of a start/stop button and a history table. Each time you start the stopwatch, the application inserts a new row into the history table that records the start time, and the current latitude and longitude. When you stop the stopwatch, the application will record the time, latitude, and longitude, as well as the amount of time that has elapsed.</p>
         </div>
 
@@ -54,6 +63,23 @@ export default class Stopwatch extends Component {
         }
     }
 
+    renderHistoryRow() {
+        return Object.keys(this.state.historyRows).map(row => {
+            return <div id='history-row'>
+                <div id='history-row-start'>
+                    <h4>Start</h4>
+                    <h5>09.18.2018 11.41</h5>
+                    <h5>LAT: 34.415973, LNG: 27.826807</h5>
+                </div>
+                <div id='history-row-end'>
+                    <h4>End</h4>
+                    <h5>09.18.2018 11.41</h5>
+                    <h5>LAT: 34.415973, LNG: 27.826807</h5>
+                </div>
+            </div>
+        });
+    }
+
     startStopwatch() {
         // change state of button
         this.setState({
@@ -73,6 +99,7 @@ export default class Stopwatch extends Component {
             started: false
         });
 
+        // stop interval
         clearInterval(this.intervalID);
     }
 
