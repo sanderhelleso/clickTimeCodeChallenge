@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import 'animate.css';
 
 export default class Stopwatch extends Component {
     constructor(props) {
@@ -53,7 +54,7 @@ export default class Stopwatch extends Component {
 
     renderStartStop() {
         if (!this.state.started) {
-            return <button id='start-stop-btn' className='start-btn' onClick={this.startStopwatch}>Start</button>
+            return <button id='start-stop-btn' className='start-btn animated flipInX' onClick={this.startStopwatch}>Start</button>
         }
 
         else if (this.state.started === 'pending') {
@@ -61,14 +62,13 @@ export default class Stopwatch extends Component {
         }
 
         else {
-            return <button id='start-stop-btn' className='stop-btn' onClick={this.stopStopwatch}>Stop</button>
+            return <button id='start-stop-btn' className='stop-btn animated flipInX' onClick={this.stopStopwatch}>Stop</button>
         }
     }
 
     renderHistoryRow() {
         return this.state.historyRows.map((row) => {
-            console.log(row);
-            return <div key={row.rowID} className='history-row'>
+            return <div key={row.rowID} className='history-row animated fadeIn'>
                         <div className='row-id-container'>
                             <h4 className='row-id'>{row.rowID}</h4>
                         </div>
@@ -96,8 +96,7 @@ export default class Stopwatch extends Component {
             started: 'pending'
         });
 
-        const crds = await this.getLocation();  // wait for getPosition to complete
-        console.log(crds);
+        const crds = await this.getLocation(); 
 
         // change state of button
         this.setState({
