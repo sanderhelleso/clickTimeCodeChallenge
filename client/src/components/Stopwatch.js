@@ -20,7 +20,6 @@ export default class Stopwatch extends Component {
         this.stopStopwatch = this.stopStopwatch.bind(this);
         this.getTime = this.getTime.bind(this);
         this.renderHistoryRow = this.renderHistoryRow.bind(this);
-        this.success = this.success.bind(this);
     }
 
     renderTable() {
@@ -57,6 +56,10 @@ export default class Stopwatch extends Component {
             return <button id='start-stop-btn' className='start-btn' onClick={this.startStopwatch}>Start</button>
         }
 
+        else if (this.state.started === 'pending') {
+            return <button id='start-stop-btn' className='stop-btn disabled' disabled>Hang on..</button>
+        }
+
         else {
             return <button id='start-stop-btn' className='stop-btn' onClick={this.stopStopwatch}>Stop</button>
         }
@@ -64,6 +67,7 @@ export default class Stopwatch extends Component {
 
     renderHistoryRow() {
         return this.state.historyRows.map((row) => {
+            console.log(row);
             return <div key={row.rowID} className='history-row'>
                         <div className='row-id-container'>
                             <h4 className='row-id'>{row.rowID}</h4>
@@ -71,12 +75,12 @@ export default class Stopwatch extends Component {
                         <div>
                             <h4>Start</h4>
                             <h5>{row.startTime}</h5>
-                            <h5>{this.state.startCords.lat}, {this.state.startCords.lng}</h5>
+                            <h5>{row.coords.start.lat}, {row.coords.start.lng}</h5>
                         </div>
                         <div>
                             <h4>End</h4>
                             <h5>{row.endTime}</h5>
-                            <h5>{this.state.startCords.lat}, {this.state.startCords.lng}</h5>
+                            <h5>{row.coords.end.lat}, {row.coords.end.lng}</h5>
                         </div>
                         <div className='history-row-time-info'>
                             <h3>Time Elapsed</h3>
@@ -86,15 +90,24 @@ export default class Stopwatch extends Component {
         });
     }
 
-    startStopwatch() {
+    async startStopwatch() {
 
-        this.getLocation();
+        this.setState({
+            started: 'pending'
+        });
+
+        const crds = await this.getLocation();  // wait for getPosition to complete
+        console.log(crds);
 
         // change state of button
         this.setState({
             started: true,
             startTime: this.getTimestamp(),
-            historyRowsCount: this.state.historyRowsCount + 1 
+            historyRowsCount: this.state.historyRowsCount + 1,
+            startCords: {
+                lat: crds.coords.latitude,
+                lng: crds.coords.longitude
+            }
         });
 
         // set interval to update state every sec
@@ -105,31 +118,43 @@ export default class Stopwatch extends Component {
 
     }
 
-    stopStopwatch() {
+    async stopStopwatch() {
 
-        this.getLocation();
+        this.setState({
+            started: 'pending'
+        });
 
         // stop interval
         clearInterval(this.intervalID);
+        const crds = await this.getLocation();  // wait for getPosition to complete
 
-        this.setState({
-            started: false,
-            historyRows: [...this.state.historyRows,
-                {   rowID: this.state.historyRowsCount,
-                    hours: this.state.currentTimer.hours,
-                    mins: this.state.currentTimer.mins,
-                    secs: this.state.currentTimer.secs,
-                    startTime: this.state.startTime,
-                    endTime: this.getTimestamp()
+            this.setState({
+                started: false,
+                historyRows: [...this.state.historyRows,
+                    {   rowID: this.state.historyRowsCount,
+                        hours: this.state.currentTimer.hours,
+                        mins: this.state.currentTimer.mins,
+                        secs: this.state.currentTimer.secs,
+                        startTime: this.state.startTime,
+                        endTime: this.getTimestamp(),
+                        coords: {
+                            start: this.state.startCords,
+                            end: {
+                                lat: crds.coords.latitude,
+                                lng: crds.coords.longitude
+                            }
+                        }
+                    }
+                ],
+                currentTimer: {
+                    hours: 0,
+                    mins: 0,
+                    secs: 0,
+                    ms: 1000
                 }
-            ],
-            currentTimer: {
-                hours: 0,
-                mins: 0,
-                secs: 0,
-                ms: 1000
-            }
-        });
+            });
+
+            console.log(this.state);
     }
 
     getTime(ms) {
@@ -155,36 +180,9 @@ export default class Stopwatch extends Component {
     }
 
     getLocation() {
-        navigator.geolocation.getCurrentPosition(this.success, this.error);
-    }
-
-    success(pos) {
-        const crd = pos.coords;
-        console.log(this.state.started);
-        switch(this.state.started) {
-            case true:
-                this.setState({
-                    startCords: {
-                        lat: crd.latitude,
-                        lng: crd.longitude
-                    }
-                });
-                break;
-            
-            case false:
-                this.setState({
-                    endCords: {
-                        lat: crd.latitude,
-                        lng: crd.longitude
-                    }
-                });
-                break;
-        }
-        
-    }
-      
-    error(err) {
-        console.warn(`ERROR(${err.code}): ${err.message}`);
+        return new Promise((res, rej) => {
+            navigator.geolocation.getCurrentPosition(res, rej);
+        });
     }
 
     render() {

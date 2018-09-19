@@ -163,6 +163,7 @@ body {
     text-transform: uppercase;
     border-radius: 8px;
     font-weight: 800;
+    transition: ease-in-out 0.5s;
 }
 
 .start-btn {
@@ -175,6 +176,14 @@ body {
     background: #DA4453;  /* fallback for old browsers */
     background: -webkit-linear-gradient(to right, #89216B, #DA4453);  /* Chrome 10-25, Safari 5.1-6 */
     background: linear-gradient(to right, #89216B, #DA4453); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+
+.disabled {
+    opacity: 0.3;
+    cursor: pointer;
+    background: #bdc3c7;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #2c3e50, #bdc3c7);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #2c3e50, #bdc3c7); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 }
 
 .long-shadow{
