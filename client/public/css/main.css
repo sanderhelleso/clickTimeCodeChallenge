@@ -237,9 +237,19 @@ body {
 @media (max-width: 1000px) {
     .grid-container {
         grid-template-columns: auto;
+        max-width: 90%;
     }
 
-    .grid-container:nth-child(2) {
-        order: 1;
+    #stopwatch {
+        grid-row: 1;
+        max-width: 100%;
+        min-width: 100%;
+        padding: 0 0 10vh 0;
+        border-bottom: 1px solid #29253d;
+        box-shadow: 0px 9px 28px rgba(0, 0, 0, 0.09);
+    }
+
+    #history-table {
+        padding-top: 10vh;
     }
 }
