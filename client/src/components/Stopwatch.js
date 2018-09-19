@@ -152,7 +152,8 @@ export default class Stopwatch extends Component {
         this.setState({
             started: false,
             historyRows: [...this.state.historyRows,
-                {   rowID: this.state.historyRowsCount,
+                {
+                    rowID: this.state.historyRowsCount,
                     hours: this.state.currentTimer.hours,
                     mins: this.state.currentTimer.mins,
                     secs: this.state.currentTimer.secs,
@@ -167,13 +168,15 @@ export default class Stopwatch extends Component {
                     }
                 }
             ],
+            // reset timer
             currentTimer: {
                 hours: 0,
                 mins: 0,
                 secs: 0,
                 ms: 1000
             }
-        }, () => {this.updateLocalStorage()}); // update localstorage after setting new state        
+        },
+        () => {this.updateLocalStorage()}); // update localstorage after setting new state        
     }
 
     // update localstorage and rerender 
@@ -212,7 +215,7 @@ export default class Stopwatch extends Component {
     // get time and date stopwatch was started/stopped
     getTimestamp() {
         const today = new Date();
-        const date =  `${addZero((today.getMonth() + 1))} ${addZero(today.getDate())} ${today.getFullYear()}`;
+        const date =  `${addZero((today.getMonth() + 1))}.${addZero(today.getDate())}.${today.getFullYear()}`;
         const time = `${addZero(today.getHours())} : ${addZero(today.getMinutes())}`;
         return `${date} ${time}`;
 
