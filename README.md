@@ -32,11 +32,12 @@ npm start
 ### Edit and modifying of component
 
 ```
-Component state is set and updated in various steps of the application,when offline the
+Component state is set and updated in various steps of the application. When offline the
 application will utilize localstorage to keep track of rows and corresponding history data. 
-In a more realistic situation should the Stopwatch component be splitted into multiple 
+
+In a more realistic situation the Stopwatch component should be splitted into multiple, 
 smaller components (History, HistoryRow, Buttons ++) and it could be debated if new history
-rows shouldbe inserted before or after previous entry.
+rows should be inserted before or after previous entry.
 ```
 
 ## Built With
