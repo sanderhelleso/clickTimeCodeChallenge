@@ -32,9 +32,9 @@ npm start
 ### Edit and modifying of component
 
 ```
-Component state is mainly set through the configuration file data.js, located within the APIExplorer folder. Here you can easily add or remove methods, set placeholders, properties etc.
-The APIExplorer component is state based and will rerender on changes done in the application.
-Static text aswell is set through objects for easier modifying of the app.
+Component state is set and updated in various steps of the application,when offline the
+application will utilize localstorage to keep track of rows and corresponding history data. 
+In a more realistic situation should the Stopwatch component be splitted into multiple smaller components (History, HistoryRow, Buttons ++) and it could be debated if new history rows should be inserted before or after previous entry.
 ```
 
 ## Built With
